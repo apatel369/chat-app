@@ -33,14 +33,15 @@ io.on('connection', (socket) => {
         callback()
     })
 
-    socket.on('disconnect', () => {
-        io.emit('message', 'user left')
-    })
-
     socket.on('sendLocation', (location, callback) => {
         io.emit('locationMessage', `https://google.com/maps?q=${location.latitude},${location.longitude}`)
         callback()
     })
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'user left')
+    })
+
 })
 
 server.listen(port, () => {

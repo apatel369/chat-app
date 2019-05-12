@@ -63,6 +63,4 @@ $sendLocationButton.addEventListener('click', () => {
             console.log('Location shared')
         })
    })
-
-    socket.emit('sendMessage', message)
 })
