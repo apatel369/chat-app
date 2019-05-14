@@ -3,6 +3,7 @@ const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
+const { generateMessage, generateLocationMessage } = require('./utils/messages')
 
 const app = express()
 const server = http.createServer(app)
@@ -17,9 +18,7 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
 
-    let data = "Welcome"
-
-    socket.emit('message', data)
+    socket.emit('message', generateMessage('Welcome'))
     socket.broadcast.emit('message', 'A new user joined')
 
     socket.on('sendMessage', (message, callback) => {
@@ -34,7 +33,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('sendLocation', (location, callback) => {
-        io.emit('locationMessage', `https://google.com/maps?q=${location.latitude},${location.longitude}`)
+        io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
         callback()
     })
 
