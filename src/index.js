@@ -7,6 +7,7 @@ const {
   generateMessage,
   generateLocationMessage
 } = require("./utils/messages");
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +22,12 @@ io.on("connection", socket => {
   console.log("New WebSocket connection");
 
   socket.on('join', ({ username, room }) => {
+    const { error, user } = addUser( { id: socket.id, username, room } )
+
+    if (error) {
+      
+    }
+
     socket.join(room)
 
     socket.emit("message", generateMessage("Welcome"));
